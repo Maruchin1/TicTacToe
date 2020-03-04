@@ -2,45 +2,39 @@ package com.maruchin.tictactoe.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.maruchin.tictactoe.core.engine.GameWinnerChecker
-import com.maruchin.tictactoe.core.engine.partial_checkers.ColumnsChecker
-import com.maruchin.tictactoe.core.engine.partial_checkers.DiagonalsChecker
-import com.maruchin.tictactoe.core.engine.partial_checkers.RowsChecker
-import com.maruchin.tictactoe.core.entities.Board
-import com.maruchin.tictactoe.core.entities.PlayerMarker
-import java.lang.Exception
+import com.maruchin.tictactoe.core.entities.*
 
 class GameService(
     private val gameWinnerChecker: GameWinnerChecker
 ) {
     val board: LiveData<Board>
-        get() = _board
-    val winner: LiveData<PlayerMarker>
-        get() = _winner
+    val gamePlayers: LiveData<Pair<GamePlayer, GamePlayer>>
+    val moving: LiveData<GamePlayer>
+    val winner: LiveData<GamePlayer>
 
-    private val _board = MutableLiveData<Board>()
-    private val _winner = MutableLiveData<PlayerMarker>()
+    private val gameState = MutableLiveData<Game>()
 
-
-    fun startNewGame(boardSize: Int) {
-        _board.value = Board(boardSize)
-        _winner.value = PlayerMarker.NONE
+    init {
+        board = Transformations.map(gameState) { it.board }
+        gamePlayers = Transformations.map(gameState) { it.gamePlayers }
+        moving = Transformations.map(gameState) { it.moving }
+        winner = Transformations.map(gameState) { it.checkWinner() }
     }
 
-    fun makeMove(rowNum: Int, colNum: Int, marker: PlayerMarker) {
-        val currBoard = getCurrBoard()
-        currBoard.fields[rowNum][colNum] = marker
-        _board.value = currBoard
-        checkWinner()
+    fun startNewGame(players: Pair<Player, Player>, boardSize: Int) {
+        val newGame = Game(gameWinnerChecker, players, boardSize)
+        gameState.value = newGame
     }
 
-    private fun getCurrBoard(): Board {
-        return _board.value ?: throw Exception("Game was not started")
+    fun makeMove(rowNum: Int, colNum: Int) {
+        val currGameState = getCurrGameState()
+        currGameState.makeMove(rowNum, colNum)
+        gameState.value = currGameState
     }
 
-    private fun checkWinner() {
-        val currBoard = getCurrBoard()
-        val currWinner = gameWinnerChecker.check(currBoard)
-        _winner.value = currWinner
+    private fun getCurrGameState(): Game {
+        return gameState.value ?: throw Exception("Game not started")
     }
 }

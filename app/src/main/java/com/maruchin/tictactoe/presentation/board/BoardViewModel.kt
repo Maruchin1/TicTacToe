@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.maruchin.tictactoe.core.GameService
-import com.maruchin.tictactoe.core.entities.PlayerMarker
-import kotlin.Exception
+import com.maruchin.tictactoe.core.entities.GamePlayer
+import com.maruchin.tictactoe.core.entities.Player
 
 class BoardViewModel(
     private val gameService: GameService,
@@ -15,24 +15,21 @@ class BoardViewModel(
 
     val boardSize: LiveData<Int>
     val fieldsMarkers: LiveData<List<Int>>
-
-    private var currPlayer: PlayerMarker = PlayerMarker.CIRCLE
+    val moving: LiveData<GamePlayer>
+    val winner: LiveData<GamePlayer>
 
     init {
         boardSize = getBoardSizeLive()
         fieldsMarkers = getFieldsMarkersLive()
-        gameService.startNewGame(boardSize = 3)
+        moving = gameService.moving
+        winner = gameService.winner
+        startNewGame()
     }
 
     fun makeMove(position: Int) {
-        val boardSize = boardSize.value ?: throw Exception("Game not started")
+        val boardSize = boardSize.value!!
         val coords = positionToCoordinatesMapper.map(position, boardSize)
-        gameService.makeMove(
-            rowNum = coords.first,
-            colNum = coords.second,
-            marker = currPlayer
-        )
-        changeCurrPlayer()
+        gameService.makeMove(rowNum = coords.first, colNum = coords.second)
     }
 
     private fun getBoardSizeLive(): LiveData<Int> {
@@ -48,11 +45,11 @@ class BoardViewModel(
         }
     }
 
-    private fun changeCurrPlayer() {
-        currPlayer = when (currPlayer) {
-            PlayerMarker.CIRCLE -> PlayerMarker.CROSS
-            PlayerMarker.CROSS -> PlayerMarker.CIRCLE
-            else -> throw Exception("Player cant be NONE")
-        }
+    private fun startNewGame() {
+        val players = Pair(
+            first = Player(name = "Marcin"),
+            second = Player(name = "Wojtek")
+        )
+        gameService.startNewGame(players, boardSize = 3)
     }
 }
