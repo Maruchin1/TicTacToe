@@ -7,6 +7,7 @@
     android:background="@color/colorWhite">
 
     <ImageView
+        android:id="@+id/img_marker"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:src="@drawable/ic_close_black_24dp"

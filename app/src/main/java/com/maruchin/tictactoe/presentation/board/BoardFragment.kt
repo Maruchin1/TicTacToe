@@ -8,10 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.maruchin.tictactoe.R
-import com.maruchin.tictactoe.core.entities.PlayerMarker
 import com.maruchin.tictactoe.databinding.FragmentBoardBinding
 import com.maruchin.tictactoe.presentation.framework.BaseFragment
 import kotlinx.android.synthetic.main.fragment_board.*
+import kotlinx.android.synthetic.main.view_board_field.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board) {
@@ -27,13 +27,13 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
         viewModel.boardSize.observe(viewLifecycleOwner, Observer {
             board_grid.layoutManager = GridLayoutManager(requireContext(), it)
         })
-        viewModel.fields.observe(viewLifecycleOwner, Observer {
+        viewModel.fieldsMarkers.observe(viewLifecycleOwner, Observer {
             board_grid.adapter = BoardAdapter(it)
         })
     }
 
     inner class BoardAdapter(
-        private val fields: List<PlayerMarker>
+        private val markers: List<Int>
     ) : RecyclerView.Adapter<FieldViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FieldViewHolder {
@@ -43,17 +43,16 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
         }
 
         override fun getItemCount(): Int {
-            return fields.size
+            return markers.size
         }
 
         override fun onBindViewHolder(holder: FieldViewHolder, position: Int) {
-
+            val marker = markers[position]
+            holder.view.img_marker.setImageResource(marker)
         }
     }
 
     inner class FieldViewHolder(
-        private val itemView: View
-    ) : RecyclerView.ViewHolder(itemView) {
-
-    }
+        val view: View
+    ) : RecyclerView.ViewHolder(view)
 }
