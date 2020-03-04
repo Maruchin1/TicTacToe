@@ -28,6 +28,14 @@ class BoardViewModel(
         startNewGame()
     }
 
+    fun startNewGame() {
+        val players = Pair(
+            first = Player(name = "Marcin"),
+            second = Player(name = "Wojtek")
+        )
+        gameService.startNewGame(players, boardSize = 3)
+    }
+
     fun makeMove(position: Int) {
         val boardSize = boardSize.value!!
         val coords = positionToCoordinatesMapper.map(position, boardSize)
@@ -53,14 +61,6 @@ class BoardViewModel(
             val flatFields = it.fields.flatten()
             markersToResMapper.map(flatFields)
         }
-    }
-
-    private fun startNewGame() {
-        val players = Pair(
-            first = Player(name = "Marcin"),
-            second = Player(name = "Wojtek")
-        )
-        gameService.startNewGame(players, boardSize = 3)
     }
 
     private fun makePlayerScore(gamePlayer: GamePlayer): PlayerScore {

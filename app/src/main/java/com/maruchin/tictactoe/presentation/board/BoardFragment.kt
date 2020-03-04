@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.maruchin.tictactoe.R
+import com.maruchin.tictactoe.core.entities.GamePlayer
 import com.maruchin.tictactoe.databinding.FragmentBoardBinding
 import com.maruchin.tictactoe.presentation.framework.BaseFragment
 import kotlinx.android.synthetic.main.fragment_board.*
@@ -36,9 +37,21 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
         })
         viewModel.winner.observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                Toast.makeText(requireContext(), "${it.player.name} WON!", Toast.LENGTH_LONG).show()
+                showWinnerDialog(it)
             }
         })
+    }
+
+    private fun showWinnerDialog(winner: GamePlayer) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Koniec gry")
+            .setMessage("${winner.player.name} wygrał grę")
+            .setPositiveButton("Zagraj jeszcze raz") { _, _ ->
+                viewModel.startNewGame()
+            }
+            .setNegativeButton("Zakończ") { _, _ -> }
+            .setCancelable(false)
+            .show()
     }
 
     inner class BoardAdapter(
