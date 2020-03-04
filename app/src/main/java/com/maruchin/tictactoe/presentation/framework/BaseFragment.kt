@@ -1,4 +1,4 @@
-package com.maruchin.tictactoe.framework
+package com.maruchin.tictactoe.presentation.framework
 
 import android.os.Bundle
 import android.view.LayoutInflater

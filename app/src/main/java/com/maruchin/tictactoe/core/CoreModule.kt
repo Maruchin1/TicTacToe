@@ -1,5 +1,6 @@
 package com.maruchin.tictactoe.core
 
+import com.maruchin.tictactoe.core.engine.GameWinnerChecker
 import com.maruchin.tictactoe.core.engine.partial_checkers.ColumnsChecker
 import com.maruchin.tictactoe.core.engine.partial_checkers.DiagonalsChecker
 import com.maruchin.tictactoe.core.engine.partial_checkers.RowsChecker
@@ -16,6 +17,15 @@ val coreModule = module {
         DiagonalsChecker()
     }
     single {
-        GameService(get())
+        GameWinnerChecker(
+            rowsChecker = get(),
+            columnsChecker = get(),
+            diagonalsChecker = get()
+        )
+    }
+    single {
+        GameService(
+            gameWinnerChecker = get()
+        )
     }
 }

@@ -1,7 +1,8 @@
-package com.maruchin.tictactoe
+package com.maruchin.tictactoe.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.maruchin.tictactoe.R
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,11 +1,11 @@
-package com.maruchin.tictactoe.board
+package com.maruchin.tictactoe.presentation.board
 
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.maruchin.tictactoe.R
 import com.maruchin.tictactoe.databinding.FragmentBoardBinding
-import com.maruchin.tictactoe.framework.BaseFragment
+import com.maruchin.tictactoe.presentation.framework.BaseFragment
 
 class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board) {
 
