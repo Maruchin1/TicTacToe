@@ -3,21 +3,36 @@ package com.maruchin.tictactoe.presentation.board
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.maruchin.tictactoe.R
 import com.maruchin.tictactoe.core.GameService
 import com.maruchin.tictactoe.core.entities.PlayerMarker
+import kotlin.Exception
 
 class BoardViewModel(
-    private val gameService: GameService
+    private val gameService: GameService,
+    private val markersToResMapper: MarkersToResMapper,
+    private val positionToCoordinatesMapper: PositionToCoordinatesMapper
 ) : ViewModel() {
 
     val boardSize: LiveData<Int>
     val fieldsMarkers: LiveData<List<Int>>
 
+    private var currPlayer: PlayerMarker = PlayerMarker.CIRCLE
+
     init {
         boardSize = getBoardSizeLive()
         fieldsMarkers = getFieldsMarkersLive()
         gameService.startNewGame(boardSize = 3)
+    }
+
+    fun makeMove(position: Int) {
+        val boardSize = boardSize.value ?: throw Exception("Game not started")
+        val coords = positionToCoordinatesMapper.map(position, boardSize)
+        gameService.makeMove(
+            rowNum = coords.first,
+            colNum = coords.second,
+            marker = currPlayer
+        )
+        changeCurrPlayer()
     }
 
     private fun getBoardSizeLive(): LiveData<Int> {
@@ -29,21 +44,15 @@ class BoardViewModel(
     private fun getFieldsMarkersLive(): LiveData<List<Int>> {
         return Transformations.map(gameService.board) {
             val flatFields = it.fields.flatten()
-            mapMarkersToResources(flatFields)
+            markersToResMapper.map(flatFields)
         }
     }
 
-    private fun mapMarkersToResources(fields: List<PlayerMarker>): List<Int> {
-        return fields.map {
-            getMarkerResource(it)
-        }
-    }
-
-    private fun getMarkerResource(marker: PlayerMarker): Int {
-        return when (marker) {
-            PlayerMarker.NONE -> 0
-            PlayerMarker.CIRCLE -> R.drawable.ic_panorama_fish_eye_black_24dp
-            PlayerMarker.CROSS -> R.drawable.ic_close_black_24dp
+    private fun changeCurrPlayer() {
+        currPlayer = when (currPlayer) {
+            PlayerMarker.CIRCLE -> PlayerMarker.CROSS
+            PlayerMarker.CROSS -> PlayerMarker.CIRCLE
+            else -> throw Exception("Player cant be NONE")
         }
     }
 }

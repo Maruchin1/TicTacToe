@@ -18,6 +18,10 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
 
     private val viewModel: BoardViewModel by viewModel()
 
+    fun onClickMakeMove(position: Int) {
+        viewModel.makeMove(position)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
@@ -48,7 +52,10 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
 
         override fun onBindViewHolder(holder: FieldViewHolder, position: Int) {
             val marker = markers[position]
-            holder.view.img_marker.setImageResource(marker)
+            holder.view.apply {
+                img_marker.setImageResource(marker)
+                root_layout.setOnClickListener { onClickMakeMove(position) }
+            }
         }
     }
 
