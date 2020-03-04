@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.maruchin.tictactoe.R
-import com.maruchin.tictactoe.core.entities.PlayerMarker
 import com.maruchin.tictactoe.databinding.FragmentBoardBinding
 import com.maruchin.tictactoe.presentation.framework.BaseFragment
 import kotlinx.android.synthetic.main.fragment_board.*
@@ -17,8 +16,7 @@ import kotlinx.android.synthetic.main.view_board_field.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board) {
-
-    private val viewModel: BoardViewModel by viewModel()
+    override val viewModel: BoardViewModel by viewModel()
 
     fun onClickMakeMove(position: Int) {
         viewModel.makeMove(position)

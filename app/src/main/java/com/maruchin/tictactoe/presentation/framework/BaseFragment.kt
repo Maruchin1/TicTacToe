@@ -12,7 +12,7 @@ import com.maruchin.tictactoe.BR
 
 abstract class BaseFragment<T : ViewDataBinding>(private val layoutResId: Int) : Fragment() {
 
-    protected val bindingViewModel: ViewModel? = null
+    protected open val viewModel: ViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,6 +22,7 @@ abstract class BaseFragment<T : ViewDataBinding>(private val layoutResId: Int) :
         val binding: T = DataBindingUtil.inflate(inflater, layoutResId, container, false)
         binding.apply {
             setVariable(BR.controller, this@BaseFragment)
+            setVariable(BR.viewModel, viewModel)
             lifecycleOwner = viewLifecycleOwner
         }
         return binding.root

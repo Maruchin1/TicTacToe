@@ -13,12 +13,14 @@ class BoardViewModel(
     private val positionToCoordinatesMapper: PositionToCoordinatesMapper
 ) : ViewModel() {
 
+    val playersScores: LiveData<Pair<PlayerScore, PlayerScore>>
     val boardSize: LiveData<Int>
     val fieldsMarkers: LiveData<List<Int>>
     val moving: LiveData<GamePlayer>
     val winner: LiveData<GamePlayer>
 
     init {
+        playersScores = getPlayersScoresLive()
         boardSize = getBoardSizeLive()
         fieldsMarkers = getFieldsMarkersLive()
         moving = gameService.moving
@@ -30,6 +32,14 @@ class BoardViewModel(
         val boardSize = boardSize.value!!
         val coords = positionToCoordinatesMapper.map(position, boardSize)
         gameService.makeMove(rowNum = coords.first, colNum = coords.second)
+    }
+
+    private fun getPlayersScoresLive(): LiveData<Pair<PlayerScore, PlayerScore>> {
+        return Transformations.map(gameService.gamePlayers) {
+            val firstPlayerScore = makePlayerScore(it.first)
+            val secondPlayerScore = makePlayerScore(it.second)
+            Pair(firstPlayerScore, secondPlayerScore)
+        }
     }
 
     private fun getBoardSizeLive(): LiveData<Int> {
@@ -51,5 +61,12 @@ class BoardViewModel(
             second = Player(name = "Wojtek")
         )
         gameService.startNewGame(players, boardSize = 3)
+    }
+
+    private fun makePlayerScore(gamePlayer: GamePlayer): PlayerScore {
+        return PlayerScore(
+            playerName = gamePlayer.player.name,
+            score = gamePlayer.player.score.toString()
+        )
     }
 }
