@@ -4,6 +4,7 @@ import com.maruchin.tictactoe.core.engine.GameWinnerChecker
 
 class Game(
     private val gameWinnerChecker: GameWinnerChecker,
+    private val winningNum: Int,
     players: Pair<Player, Player>,
     boardSize: Int
 ) {
@@ -28,7 +29,7 @@ class Game(
     }
 
     fun checkWinner(): GamePlayer? {
-        val winnerMarker = gameWinnerChecker.check(board)
+        val winnerMarker = gameWinnerChecker.check(board, winningNum)
         return gamePlayers.toList().find {
             it.marker == winnerMarker
         }

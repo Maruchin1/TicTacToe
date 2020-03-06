@@ -33,7 +33,7 @@ class BoardViewModel(
             first = Player(name = "Marcin"),
             second = Player(name = "Wojtek")
         )
-        gameService.startNewGame(players, boardSize = 3)
+        gameService.startNewGame(players, boardSize = 3, winningNum = 2)
     }
 
     fun makeMove(position: Int) {

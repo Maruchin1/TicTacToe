@@ -30,39 +30,42 @@ class GameWinnerCheckerTest {
 
     @Test
     fun should_Circle_Win_In_Row() {
+        val winningNum = 2
         val testBoard = Board(3)
 
-        Mockito.`when`(rowsChecker.check(testBoard)).thenReturn(PlayerMarker.CIRCLE)
-        Mockito.`when`(columnsChecker.check(testBoard)).thenReturn(PlayerMarker.NONE)
-        Mockito.`when`(diagonalsChecker.check(testBoard)).thenReturn(PlayerMarker.NONE)
+        Mockito.`when`(rowsChecker.check(testBoard, winningNum)).thenReturn(PlayerMarker.CIRCLE)
+        Mockito.`when`(columnsChecker.check(testBoard, winningNum)).thenReturn(PlayerMarker.NONE)
+        Mockito.`when`(diagonalsChecker.check(testBoard, winningNum)).thenReturn(PlayerMarker.NONE)
 
-        val result = checker.check(testBoard)
+        val result = checker.check(testBoard, winningNum)
 
         Truth.assertThat(result).isEqualTo(PlayerMarker.CIRCLE)
     }
 
     @Test
     fun should_Cross_Win_In_Column() {
+        val winningNum = 2
         val testBoard = Board(3)
 
-        Mockito.`when`(rowsChecker.check(testBoard)).thenReturn(PlayerMarker.NONE)
-        Mockito.`when`(columnsChecker.check(testBoard)).thenReturn(PlayerMarker.CROSS)
-        Mockito.`when`(diagonalsChecker.check(testBoard)).thenReturn(PlayerMarker.NONE)
+        Mockito.`when`(rowsChecker.check(testBoard, winningNum)).thenReturn(PlayerMarker.NONE)
+        Mockito.`when`(columnsChecker.check(testBoard, winningNum)).thenReturn(PlayerMarker.CROSS)
+        Mockito.`when`(diagonalsChecker.check(testBoard, winningNum)).thenReturn(PlayerMarker.NONE)
 
-        val result = checker.check(testBoard)
+        val result = checker.check(testBoard, winningNum)
 
         Truth.assertThat(result).isEqualTo(PlayerMarker.CROSS)
     }
 
     @Test
     fun should_Cross_Win_In_Diagonal() {
+        val winningNum = 2
         val testBoard = Board(3)
 
-        Mockito.`when`(rowsChecker.check(testBoard)).thenReturn(PlayerMarker.NONE)
-        Mockito.`when`(columnsChecker.check(testBoard)).thenReturn(PlayerMarker.NONE)
-        Mockito.`when`(diagonalsChecker.check(testBoard)).thenReturn(PlayerMarker.CROSS)
+        Mockito.`when`(rowsChecker.check(testBoard, winningNum)).thenReturn(PlayerMarker.NONE)
+        Mockito.`when`(columnsChecker.check(testBoard, winningNum)).thenReturn(PlayerMarker.NONE)
+        Mockito.`when`(diagonalsChecker.check(testBoard, winningNum)).thenReturn(PlayerMarker.CROSS)
 
-        val result = checker.check(testBoard)
+        val result = checker.check(testBoard, winningNum)
 
         Truth.assertThat(result).isEqualTo(PlayerMarker.CROSS)
     }

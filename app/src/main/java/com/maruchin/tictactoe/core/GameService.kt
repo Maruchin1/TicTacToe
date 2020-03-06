@@ -23,8 +23,8 @@ class GameService(
         winner = Transformations.map(gameState) { it.checkWinner() }
     }
 
-    fun startNewGame(players: Pair<Player, Player>, boardSize: Int) {
-        val newGame = Game(gameWinnerChecker, players, boardSize)
+    fun startNewGame(players: Pair<Player, Player>, boardSize: Int, winningNum: Int) {
+        val newGame = Game(gameWinnerChecker, winningNum, players, boardSize)
         gameState.value = newGame
     }
 

@@ -12,12 +12,12 @@ class GameWinnerChecker(
     private val diagonalsChecker: DiagonalsChecker
 ) {
 
-    fun check(board: Board): PlayerMarker {
-        var winner = rowsChecker.check(board)
+    fun check(board: Board, winningNum: Int): PlayerMarker {
+        var winner = rowsChecker.check(board, winningNum)
         if (winner == PlayerMarker.NONE) {
-            winner = columnsChecker.check(board)
+            winner = columnsChecker.check(board, winningNum)
             if (winner == PlayerMarker.NONE) {
-                winner = diagonalsChecker.check(board)
+                winner = diagonalsChecker.check(board, winningNum)
             }
         }
         return winner

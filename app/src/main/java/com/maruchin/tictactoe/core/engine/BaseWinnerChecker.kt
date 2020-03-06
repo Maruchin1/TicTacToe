@@ -5,10 +5,10 @@ import com.maruchin.tictactoe.core.entities.PlayerMarker
 
 abstract class BaseWinnerChecker {
 
-    fun check(board: Board): PlayerMarker {
+    fun check(board: Board, winningNum: Int): PlayerMarker {
         val arrays = getArraysToCheck(board)
         for (array in arrays) {
-            val singleArrayResult = checkSingleArray(array)
+            val singleArrayResult = checkSingleArray(array, winningNum)
             if (singleArrayResult != PlayerMarker.NONE) {
                 return singleArrayResult
             }
@@ -18,15 +18,8 @@ abstract class BaseWinnerChecker {
 
     protected abstract fun getArraysToCheck(board: Board): Array<Array<PlayerMarker>>
 
-    private fun checkSingleArray(array: Array<PlayerMarker>): PlayerMarker {
-        val first = array[0]
-        val allSameAsFirst = array.all {
-            it == first
-        }
-        return if(allSameAsFirst) {
-            first
-        } else {
-            PlayerMarker.NONE
-        }
+    private fun checkSingleArray(array: Array<PlayerMarker>, winningNum: Int): PlayerMarker {
+        val checker = SingleArrayChecker(array, winningNum)
+        return checker.check()
     }
 }
