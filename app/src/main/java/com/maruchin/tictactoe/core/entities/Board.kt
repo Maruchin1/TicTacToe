@@ -7,4 +7,13 @@ class Board(val size: Int) {
             PlayerMarker.NONE
         }
     }
+
+    fun getForCoordinates(coordinates: Coordinates): PlayerMarker {
+        return fields[coordinates.row][coordinates.column]
+    }
+
+    fun containsCoordinates(coordinates: Coordinates): Boolean {
+        return coordinates.row in 1 until size &&
+                coordinates.column in 1 until size
+    }
 }
