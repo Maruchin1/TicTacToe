@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.maruchin.tictactoe.core.engine.GameWinnerChecker
-import com.maruchin.tictactoe.core.engine2.WinningMoveChecker
+import com.maruchin.tictactoe.core.engine.WinningMoveChecker
 import com.maruchin.tictactoe.core.entities.*
 
 class GameService(
@@ -21,17 +21,17 @@ class GameService(
         board = Transformations.map(gameState) { it.board }
         gamePlayers = Transformations.map(gameState) { it.gamePlayers }
         moving = Transformations.map(gameState) { it.moving }
-        winner = Transformations.map(gameState) { it.checkWinner() }
+        winner = Transformations.map(gameState) { it.winner }
     }
 
     fun startNewGame(players: Pair<Player, Player>, boardSize: Int, winningNum: Int) {
-//        val newGame = Game(gameWinnerChecker, winningNum, players, boardSize)
-//        gameState.value = newGame
+        val newGame = Game(winningMoveChecker, winningNum, players, boardSize)
+        gameState.value = newGame
     }
 
-    fun makeMove(rowNum: Int, colNum: Int) {
+    fun makeMove(moveCoordinates: Coordinates) {
         val currGameState = getCurrGameState()
-        currGameState.makeMove(rowNum, colNum)
+        currGameState.makeMove(moveCoordinates)
         gameState.value = currGameState
     }
 

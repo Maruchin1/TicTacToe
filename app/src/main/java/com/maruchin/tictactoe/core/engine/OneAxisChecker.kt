@@ -1,4 +1,4 @@
-package com.maruchin.tictactoe.core.engine2
+package com.maruchin.tictactoe.core.engine
 
 import com.maruchin.tictactoe.core.entities.Board
 import com.maruchin.tictactoe.core.entities.Coordinates
@@ -15,8 +15,12 @@ abstract class OneAxisChecker {
     ): Boolean {
         movingMarker = board.getForCoordinates(moveCoordinates)
         sameMarkers = 1
-        checkInDirection(board, moveCoordinates, Direction.NEGATIVE)
-        checkInDirection(board, moveCoordinates, Direction.POSITIVE)
+        checkInDirection(board, moveCoordinates,
+            Direction.NEGATIVE
+        )
+        checkInDirection(board, moveCoordinates,
+            Direction.POSITIVE
+        )
         return sameMarkers >= winningNum
     }
 

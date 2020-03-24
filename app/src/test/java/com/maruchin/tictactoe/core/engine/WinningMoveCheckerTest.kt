@@ -1,10 +1,11 @@
-package com.maruchin.tictactoe.core.engine2
+package com.maruchin.tictactoe.core.engine
 
 import com.google.common.truth.Truth
-import com.maruchin.tictactoe.core.engine2.partial_checkers.ColumnChecker
-import com.maruchin.tictactoe.core.engine2.partial_checkers.FirstDiagonalChecker
-import com.maruchin.tictactoe.core.engine2.partial_checkers.RowChecker
-import com.maruchin.tictactoe.core.engine2.partial_checkers.SecondDiagonalChecker
+import com.maruchin.tictactoe.core.engine.WinningMoveChecker
+import com.maruchin.tictactoe.core.engine.partial_checkers.ColumnChecker
+import com.maruchin.tictactoe.core.engine.partial_checkers.FirstDiagonalChecker
+import com.maruchin.tictactoe.core.engine.partial_checkers.RowChecker
+import com.maruchin.tictactoe.core.engine.partial_checkers.SecondDiagonalChecker
 import com.maruchin.tictactoe.core.entities.Board
 import com.maruchin.tictactoe.core.entities.Coordinates
 import com.maruchin.tictactoe.mock

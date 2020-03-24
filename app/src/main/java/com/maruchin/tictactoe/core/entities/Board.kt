@@ -8,6 +8,10 @@ class Board(val size: Int) {
         }
     }
 
+    fun makeMove(moveCoordinates: Coordinates, marker: PlayerMarker) {
+        fields[moveCoordinates.row][moveCoordinates.column] = marker
+    }
+
     fun getForCoordinates(coordinates: Coordinates): PlayerMarker {
         return fields[coordinates.row][coordinates.column]
     }

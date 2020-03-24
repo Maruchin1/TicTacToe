@@ -1,7 +1,6 @@
-package com.maruchin.tictactoe.core.engine2.partial_checkers
+package com.maruchin.tictactoe.core.engine.partial_checkers
 
-import com.maruchin.tictactoe.core.engine2.OneAxisChecker
-import com.maruchin.tictactoe.core.entities.Board
+import com.maruchin.tictactoe.core.engine.OneAxisChecker
 import com.maruchin.tictactoe.core.entities.Coordinates
 
 class FirstDiagonalChecker : OneAxisChecker() {

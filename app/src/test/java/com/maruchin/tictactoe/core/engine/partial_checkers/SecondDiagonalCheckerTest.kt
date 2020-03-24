@@ -1,28 +1,28 @@
-package com.maruchin.tictactoe.core.engine2
+package com.maruchin.tictactoe.core.engine.partial_checkers
 
 import com.google.common.truth.Truth
-import com.maruchin.tictactoe.core.engine2.partial_checkers.FirstDiagonalChecker
 import com.maruchin.tictactoe.core.entities.Board
 import com.maruchin.tictactoe.core.entities.Coordinates
 import com.maruchin.tictactoe.core.entities.PlayerMarker
 import org.junit.Before
 import org.junit.Test
 
-class FirstDiagonalCheckerTest {
+class SecondDiagonalCheckerTest {
 
-    private lateinit var checker: FirstDiagonalChecker
+    private lateinit var checker: SecondDiagonalChecker
 
     @Before
     fun before() {
-        checker = FirstDiagonalChecker()
+        checker =
+            SecondDiagonalChecker()
     }
 
     @Test
-    fun shouldWin_FirstRowFirstColumn_SecondRowSecondColumn() {
+    fun shouldWin_ThirdRowFirstColumn_SecondRowSecondColumn() {
         val board = Board(size = 3).apply {
-            fields[0][0] = PlayerMarker.CIRCLE
+            fields[2][0] = PlayerMarker.CIRCLE
             fields[1][1] = PlayerMarker.CIRCLE
-            fields[2][2] = PlayerMarker.CROSS
+            fields[0][2] = PlayerMarker.CROSS
         }
         val winningNum = 2
         val moveCoordinates = Coordinates(row = 1, column = 1)
@@ -33,11 +33,11 @@ class FirstDiagonalCheckerTest {
     }
 
     @Test
-    fun shouldWin_SecondRowSecondColumn_ThirdRowThirdColumn() {
+    fun shouldWin_SecondRowSecondColumn_FirstRowThirdColumn() {
         val board = Board(size = 3).apply {
-            fields[0][0] = PlayerMarker.CIRCLE
+            fields[2][0] = PlayerMarker.CIRCLE
             fields[1][1] = PlayerMarker.CROSS
-            fields[2][2] = PlayerMarker.CROSS
+            fields[0][2] = PlayerMarker.CROSS
         }
         val winningNum = 2
         val moveCoordinates = Coordinates(row = 1, column = 1)
@@ -50,9 +50,9 @@ class FirstDiagonalCheckerTest {
     @Test
     fun shouldNotWin() {
         val board = Board(size = 3).apply {
-            fields[0][0] = PlayerMarker.CROSS
+            fields[2][0] = PlayerMarker.CROSS
             fields[1][1] = PlayerMarker.CIRCLE
-            fields[2][2] = PlayerMarker.CROSS
+            fields[0][2] = PlayerMarker.CROSS
         }
         val winningNum = 2
         val moveCoordinates = Coordinates(row = 1, column = 1)

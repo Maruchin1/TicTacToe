@@ -1,9 +1,9 @@
-package com.maruchin.tictactoe.core.engine2
+package com.maruchin.tictactoe.core.engine
 
-import com.maruchin.tictactoe.core.engine2.partial_checkers.ColumnChecker
-import com.maruchin.tictactoe.core.engine2.partial_checkers.FirstDiagonalChecker
-import com.maruchin.tictactoe.core.engine2.partial_checkers.RowChecker
-import com.maruchin.tictactoe.core.engine2.partial_checkers.SecondDiagonalChecker
+import com.maruchin.tictactoe.core.engine.partial_checkers.ColumnChecker
+import com.maruchin.tictactoe.core.engine.partial_checkers.FirstDiagonalChecker
+import com.maruchin.tictactoe.core.engine.partial_checkers.RowChecker
+import com.maruchin.tictactoe.core.engine.partial_checkers.SecondDiagonalChecker
 import com.maruchin.tictactoe.core.entities.Board
 import com.maruchin.tictactoe.core.entities.Coordinates
 
@@ -24,6 +24,6 @@ class WinningMoveChecker(
         val checkResults = checkers.map { oneAxisChecker ->
             oneAxisChecker.check(board, winningNum, moveCoordinates)
         }
-        return checkResults.any()
+        return checkResults.any { it }
     }
 }

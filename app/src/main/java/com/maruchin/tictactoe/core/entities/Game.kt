@@ -1,9 +1,9 @@
 package com.maruchin.tictactoe.core.entities
 
-import com.maruchin.tictactoe.core.engine.GameWinnerChecker
+import com.maruchin.tictactoe.core.engine.WinningMoveChecker
 
 class Game(
-    private val gameWinnerChecker: GameWinnerChecker,
+    private val winningMoveChecker: WinningMoveChecker,
     private val winningNum: Int,
     players: Pair<Player, Player>,
     boardSize: Int
@@ -12,6 +12,7 @@ class Game(
     val board: Board
     val gamePlayers: Pair<GamePlayer, GamePlayer>
     var moving: GamePlayer
+    var winner: GamePlayer? = null
 
     init {
         val markers = getRandomlyOrderedMarkers()
@@ -23,16 +24,10 @@ class Game(
         moving = getStartingPlayer()
     }
 
-    fun makeMove(rowNum: Int, colNum: Int) {
-        board.fields[rowNum][colNum] = moving.marker
-        moving = getNextMoving()
-    }
-
-    fun checkWinner(): GamePlayer? {
-        val winnerMarker = gameWinnerChecker.check(board, winningNum)
-        return gamePlayers.toList().find {
-            it.marker == winnerMarker
-        }
+    fun makeMove(moveCoordinates: Coordinates) {
+        board.makeMove(moveCoordinates, moving.marker)
+        changeMoving()
+        checkWinner(moveCoordinates)
     }
 
     private fun getRandomlyOrderedMarkers(): Pair<PlayerMarker, PlayerMarker> {
@@ -47,11 +42,18 @@ class Game(
         }
     }
 
-    private fun getNextMoving(): GamePlayer {
-        return when (moving) {
+    private fun changeMoving() {
+        moving = when (moving) {
             gamePlayers.first -> gamePlayers.second
             gamePlayers.second -> gamePlayers.first
             else -> throw Exception("Moving player is not in this game")
+        }
+    }
+
+    private fun checkWinner(moveCoordinates: Coordinates) {
+        val isMovingWinner = winningMoveChecker.check(board, winningNum, moveCoordinates)
+        if (isMovingWinner) {
+            winner = moving
         }
     }
 }
