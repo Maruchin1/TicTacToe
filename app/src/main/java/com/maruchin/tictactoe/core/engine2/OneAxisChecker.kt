@@ -2,28 +2,35 @@ package com.maruchin.tictactoe.core.engine2
 
 import com.maruchin.tictactoe.core.entities.Board
 import com.maruchin.tictactoe.core.entities.Coordinates
+import com.maruchin.tictactoe.core.entities.PlayerMarker
 
-abstract class BaseChecker(
-    private val board: Board,
-    private val winningNum: Int,
-    private val moveCoordinates: Coordinates
-) {
-    private val movingMarker = board.getForCoordinates(moveCoordinates)
-    private var sameMarkers = 1
+abstract class OneAxisChecker {
+    private lateinit var movingMarker: PlayerMarker
+    private var sameMarkers: Int = 1
 
-    fun check(): Boolean {
-        checkInDirection(moveCoordinates, Direction.NEGATIVE)
-        checkInDirection(moveCoordinates, Direction.POSITIVE)
+    fun check(
+        board: Board,
+        winningNum: Int,
+        moveCoordinates: Coordinates
+    ): Boolean {
+        movingMarker = board.getForCoordinates(moveCoordinates)
+        sameMarkers = 1
+        checkInDirection(board, moveCoordinates, Direction.NEGATIVE)
+        checkInDirection(board, moveCoordinates, Direction.POSITIVE)
         return sameMarkers >= winningNum
     }
 
-    private fun checkInDirection(currCoordinates: Coordinates, direction: Direction) {
+    private fun checkInDirection(
+        board: Board,
+        currCoordinates: Coordinates,
+        direction: Direction
+    ) {
         val nextCoordinates = getNextCoordinates(currCoordinates, direction)
         if (board.containsCoordinates(nextCoordinates)) {
             val nextMarker = board.getForCoordinates(nextCoordinates)
             if (nextMarker == movingMarker) {
                 sameMarkers++
-                return checkInDirection(nextCoordinates, direction)
+                return checkInDirection(board, nextCoordinates, direction)
             }
         }
     }

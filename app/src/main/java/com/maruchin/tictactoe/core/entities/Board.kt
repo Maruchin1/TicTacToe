@@ -13,7 +13,7 @@ class Board(val size: Int) {
     }
 
     fun containsCoordinates(coordinates: Coordinates): Boolean {
-        return coordinates.row in 1 until size &&
-                coordinates.column in 1 until size
+        return coordinates.row in 0 until size &&
+                coordinates.column in 0 until size
     }
 }
