@@ -7,6 +7,8 @@ import com.maruchin.tictactoe.presentation.framework.BaseDialog
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DuoDialog : BaseDialog<DialogPlayDuoBinding>(R.layout.dialog_play_duo) {
+    override val TAG: String
+        get() = "DuoDialog"
     override val viewModel: DuoViewModel by viewModel()
 
     fun startSession() {

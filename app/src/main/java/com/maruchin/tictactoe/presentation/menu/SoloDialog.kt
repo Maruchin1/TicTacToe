@@ -5,5 +5,6 @@ import com.maruchin.tictactoe.databinding.DialogPlaySoloBinding
 import com.maruchin.tictactoe.presentation.framework.BaseDialog
 
 class SoloDialog : BaseDialog<DialogPlaySoloBinding>(R.layout.dialog_play_solo){
-
+    override val TAG: String
+        get() = "SoloDialog"
 }

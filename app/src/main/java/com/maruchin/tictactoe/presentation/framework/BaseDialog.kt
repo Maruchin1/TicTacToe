@@ -7,12 +7,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
 import com.maruchin.tictactoe.BR
 import com.maruchin.tictactoe.R
 
 abstract class BaseDialog<T : ViewDataBinding>(private val layoutResId: Int): DialogFragment() {
+    protected abstract val TAG: String
     protected open val viewModel: ViewModel? = null
+
+    fun show(manager: FragmentManager) {
+        show(manager, TAG)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

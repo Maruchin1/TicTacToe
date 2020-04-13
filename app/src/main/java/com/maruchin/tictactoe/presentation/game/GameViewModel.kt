@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.maruchin.tictactoe.core.PlayersSession
 import com.maruchin.tictactoe.core.entities.GamePlayer
 import com.maruchin.tictactoe.core.entities.Player
+import com.maruchin.tictactoe.core.entities.PlayerMarker
 
 class GameViewModel(
     private val playersSession: PlayersSession,
-    private val markersToResMapper: MarkersToResMapper,
     private val positionToCoordinatesMapper: PositionToCoordinatesMapper
 ) : ViewModel() {
 
@@ -19,9 +19,17 @@ class GameViewModel(
     }
 
     val players: LiveData<Pair<GamePlayer, GamePlayer>> = playersSession.gamePlayers
-    val boardSize: LiveData<Int> = getBoardSizeLive()
-    val fieldsMarkers: LiveData<List<Int>> = getFieldsMarkersLive()
+
+    val boardSize: LiveData<Int> = Transformations.map(playersSession.board) {
+        it.size
+    }
+
+    val fieldsMarkers: LiveData<List<PlayerMarker>> = Transformations.map(playersSession.board) {
+        it.fields.flatten()
+    }
+
     val moving: LiveData<GamePlayer> = playersSession.moving
+
     val winner: LiveData<GamePlayer> = playersSession.winner
 
     fun initSession(data: NewSessionData) {
@@ -41,33 +49,5 @@ class GameViewModel(
         val boardSize = boardSize.value!!
         val moveCoordinates = positionToCoordinatesMapper.map(position, boardSize)
         playersSession.makeMove(moveCoordinates)
-    }
-
-    private fun getPlayersScoresLive(): LiveData<Pair<PlayerScore, PlayerScore>> {
-        return Transformations.map(playersSession.gamePlayers) {
-            val firstPlayerScore = makePlayerScore(it.first)
-            val secondPlayerScore = makePlayerScore(it.second)
-            Pair(firstPlayerScore, secondPlayerScore)
-        }
-    }
-
-    private fun getBoardSizeLive(): LiveData<Int> {
-        return Transformations.map(playersSession.board) {
-            it.size
-        }
-    }
-
-    private fun getFieldsMarkersLive(): LiveData<List<Int>> {
-        return Transformations.map(playersSession.board) {
-            val flatFields = it.fields.flatten()
-            markersToResMapper.map(flatFields)
-        }
-    }
-
-    private fun makePlayerScore(gamePlayer: GamePlayer): PlayerScore {
-        return PlayerScore(
-            playerName = gamePlayer.player.name,
-            score = gamePlayer.player.score.toString()
-        )
     }
 }

@@ -15,13 +15,13 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorTransparent">
+        android:background="@color/colorTransparent"
+        android:padding="32dp">
 
         <com.google.android.material.card.MaterialCardView
             style="@style/App.Widget.CardView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
