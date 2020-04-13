@@ -26,8 +26,8 @@ class Game(
 
     fun makeMove(moveCoordinates: Coordinates) {
         board.makeMove(moveCoordinates, moving.marker)
-        changeMoving()
         checkWinner(moveCoordinates)
+        changeMoving()
     }
 
     private fun getRandomlyOrderedMarkers(): Pair<PlayerMarker, PlayerMarker> {
@@ -54,6 +54,7 @@ class Game(
         val isMovingWinner = winningMoveChecker.check(board, winningNum, moveCoordinates)
         if (isMovingWinner) {
             winner = moving
+            moving.player.score++
         }
     }
 }

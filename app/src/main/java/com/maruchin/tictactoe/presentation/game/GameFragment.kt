@@ -1,6 +1,7 @@
 package com.maruchin.tictactoe.presentation.game
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.maruchin.tictactoe.R
 import com.maruchin.tictactoe.core.entities.GamePlayer
 import com.maruchin.tictactoe.databinding.FragmentGameBinding
@@ -36,21 +38,15 @@ class GameFragment : BaseFragment<FragmentGameBinding>(R.layout.fragment_game) {
         })
         viewModel.winner.observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                showWinnerDialog(it)
+                showWinnerSnackbar(it)
+                viewModel.startNewGame()
             }
         })
     }
 
-    private fun showWinnerDialog(winner: GamePlayer) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Koniec gry")
-            .setMessage("${winner.player.name} wygrał grę")
-            .setPositiveButton("Zagraj jeszcze raz") { _, _ ->
-                viewModel.startNewGame()
-            }
-            .setNegativeButton("Zakończ") { _, _ -> }
-            .setCancelable(false)
-            .show()
+    private fun showWinnerSnackbar(winner: GamePlayer) {
+        val message = "${winner.player.name} wygrał grę"
+        Snackbar.make(root_layout, message, Snackbar.LENGTH_SHORT).show()
     }
 
     inner class BoardAdapter(

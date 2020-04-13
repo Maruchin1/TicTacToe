@@ -36,4 +36,11 @@
     <style name="App.Widget.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="cornerRadius">16dp</item>
     </style>
+
+    <style name="App.Widget.OutlineButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="cornerRadius">16dp</item>
+        <item name="strokeColor">@color/colorWhite</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
 </resources>

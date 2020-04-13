@@ -18,19 +18,11 @@ class GameViewModel(
         private const val WINNING_NUM = 5
     }
 
-    val playersScores: LiveData<Pair<PlayerScore, PlayerScore>>
-    val boardSize: LiveData<Int>
-    val fieldsMarkers: LiveData<List<Int>>
-    val moving: LiveData<GamePlayer>
-    val winner: LiveData<GamePlayer>
-
-    init {
-        playersScores = getPlayersScoresLive()
-        boardSize = getBoardSizeLive()
-        fieldsMarkers = getFieldsMarkersLive()
-        moving = playersSession.moving
-        winner = playersSession.winner
-    }
+    val players: LiveData<Pair<GamePlayer, GamePlayer>> = playersSession.gamePlayers
+    val boardSize: LiveData<Int> = getBoardSizeLive()
+    val fieldsMarkers: LiveData<List<Int>> = getFieldsMarkersLive()
+    val moving: LiveData<GamePlayer> = playersSession.moving
+    val winner: LiveData<GamePlayer> = playersSession.winner
 
     fun initSession(data: NewSessionData) {
         val players = Pair(
