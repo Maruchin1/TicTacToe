@@ -26,8 +26,13 @@ class Game(
 
     fun makeMove(moveCoordinates: Coordinates) {
         board.makeMove(moveCoordinates, moving.marker)
-        checkWinner(moveCoordinates)
-        changeMoving()
+        val isMovingWinner = winningMoveChecker.check(board, winningNum, moveCoordinates)
+        if (isMovingWinner) {
+            winner = moving
+            moving.player.score++
+        } else{
+            changeMoving()
+        }
     }
 
     private fun getRandomlyOrderedMarkers(): Pair<PlayerMarker, PlayerMarker> {
@@ -47,14 +52,6 @@ class Game(
             gamePlayers.first -> gamePlayers.second
             gamePlayers.second -> gamePlayers.first
             else -> throw Exception("Moving player is not in this game")
-        }
-    }
-
-    private fun checkWinner(moveCoordinates: Coordinates) {
-        val isMovingWinner = winningMoveChecker.check(board, winningNum, moveCoordinates)
-        if (isMovingWinner) {
-            winner = moving
-            moving.player.score++
         }
     }
 }

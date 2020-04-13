@@ -8,10 +8,13 @@
     <fragment
         android:id="@+id/gameFragment"
         android:name="com.maruchin.tictactoe.presentation.game.GameFragment"
-        tools:layout="@layout/fragment_game" >
+        tools:layout="@layout/fragment_game">
         <argument
             android:name="data"
             app:argType="com.maruchin.tictactoe.presentation.game.NewSessionData" />
+        <action
+            android:id="@+id/toWinnerDialog"
+            app:destination="@id/winnerDialog" />
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
@@ -39,5 +42,14 @@
         <action
             android:id="@+id/toGameFragment"
             app:destination="@id/gameFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/winnerDialog"
+        android:name="com.maruchin.tictactoe.presentation.game.WinnerDialog"
+        android:label="WinnerDialog"
+        tools:layout="@layout/dialog_winner" >
+        <argument
+            android:name="winnerName"
+            app:argType="string" />
     </dialog>
 </navigation>
