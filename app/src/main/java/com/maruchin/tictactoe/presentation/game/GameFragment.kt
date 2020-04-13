@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -18,17 +19,15 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class GameFragment : BaseFragment<FragmentGameBinding>(R.layout.fragment_game) {
     override val viewModel: GameViewModel by viewModel()
+    private val args: GameFragmentArgs by navArgs()
 
-    fun onClickMakeMove(position: Int) {
+    fun makeMove(position: Int) {
         viewModel.makeMove(position)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
-    }
-
-    private fun observeViewModel() {
+        viewModel.initSession(args.data)
         viewModel.boardSize.observe(viewLifecycleOwner, Observer {
             board_grid.layoutManager = GridLayoutManager(requireContext(), it)
         })
@@ -72,7 +71,7 @@ class GameFragment : BaseFragment<FragmentGameBinding>(R.layout.fragment_game) {
             val marker = markers[position]
             holder.view.apply {
                 img_marker.setImageResource(marker)
-                root_layout.setOnClickListener { onClickMakeMove(position) }
+                root_layout.setOnClickListener { makeMove(position) }
             }
         }
     }

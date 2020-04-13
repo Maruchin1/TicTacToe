@@ -30,12 +30,17 @@ class GameViewModel(
         fieldsMarkers = getFieldsMarkersLive()
         moving = playersSession.moving
         winner = playersSession.winner
+    }
+
+    fun initSession(data: NewSessionData) {
         val players = Pair(
-            first = Player(name = "Marcin"),
-            second = Player(name = "Wojtek")
+            first = Player(data.firstPlayerName),
+            second = Player(data.secondPlayerName)
         )
-        playersSession.initSession(players, BOARD_SIZE, WINNING_NUM)
-        playersSession.startNewGame()
+        playersSession.apply {
+            initSession(players, BOARD_SIZE, WINNING_NUM)
+            startNewGame()
+        }
     }
 
     fun startNewGame() = playersSession.startNewGame()
