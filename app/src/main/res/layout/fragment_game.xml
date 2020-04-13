@@ -7,11 +7,11 @@
 
         <variable
             name="controller"
-            type="com.maruchin.tictactoe.presentation.board.BoardFragment" />
+            type="com.maruchin.tictactoe.presentation.game.GameFragment" />
 
         <variable
             name="viewModel"
-            type="com.maruchin.tictactoe.presentation.board.BoardViewModel" />
+            type="com.maruchin.tictactoe.presentation.game.GameViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

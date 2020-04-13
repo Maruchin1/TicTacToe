@@ -69,6 +69,6 @@ class WinningMoveCheckerTest {
 
         val result = checker.check(board, winningNum, moveCoordinates)
 
-        Truth.assertThat(result).isTrue()
+        Truth.assertThat(result).isFalse()
     }
 }

@@ -1,14 +1,14 @@
-package com.maruchin.tictactoe.presentation.board
+package com.maruchin.tictactoe.presentation.game
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.maruchin.tictactoe.core.GameService
+import com.maruchin.tictactoe.core.PlayersSession
 import com.maruchin.tictactoe.core.entities.GamePlayer
 import com.maruchin.tictactoe.core.entities.Player
 
-class BoardViewModel(
-    private val gameService: GameService,
+class GameViewModel(
+    private val playersSession: PlayersSession,
     private val markersToResMapper: MarkersToResMapper,
     private val positionToCoordinatesMapper: PositionToCoordinatesMapper
 ) : ViewModel() {
@@ -28,27 +28,26 @@ class BoardViewModel(
         playersScores = getPlayersScoresLive()
         boardSize = getBoardSizeLive()
         fieldsMarkers = getFieldsMarkersLive()
-        moving = gameService.moving
-        winner = gameService.winner
-        startNewGame()
-    }
-
-    fun startNewGame() {
+        moving = playersSession.moving
+        winner = playersSession.winner
         val players = Pair(
             first = Player(name = "Marcin"),
             second = Player(name = "Wojtek")
         )
-        gameService.startNewGame(players, BOARD_SIZE, WINNING_NUM)
+        playersSession.initSession(players, BOARD_SIZE, WINNING_NUM)
+        playersSession.startNewGame()
     }
+
+    fun startNewGame() = playersSession.startNewGame()
 
     fun makeMove(position: Int) {
         val boardSize = boardSize.value!!
         val moveCoordinates = positionToCoordinatesMapper.map(position, boardSize)
-        gameService.makeMove(moveCoordinates)
+        playersSession.makeMove(moveCoordinates)
     }
 
     private fun getPlayersScoresLive(): LiveData<Pair<PlayerScore, PlayerScore>> {
-        return Transformations.map(gameService.gamePlayers) {
+        return Transformations.map(playersSession.gamePlayers) {
             val firstPlayerScore = makePlayerScore(it.first)
             val secondPlayerScore = makePlayerScore(it.second)
             Pair(firstPlayerScore, secondPlayerScore)
@@ -56,13 +55,13 @@ class BoardViewModel(
     }
 
     private fun getBoardSizeLive(): LiveData<Int> {
-        return Transformations.map(gameService.board) {
+        return Transformations.map(playersSession.board) {
             it.size
         }
     }
 
     private fun getFieldsMarkersLive(): LiveData<List<Int>> {
-        return Transformations.map(gameService.board) {
+        return Transformations.map(playersSession.board) {
             val flatFields = it.fields.flatten()
             markersToResMapper.map(flatFields)
         }

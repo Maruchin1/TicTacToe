@@ -1,4 +1,4 @@
-package com.maruchin.tictactoe.presentation.board
+package com.maruchin.tictactoe.presentation.game
 
 import com.maruchin.tictactoe.R
 import com.maruchin.tictactoe.core.entities.PlayerMarker

@@ -3,11 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/boardFragment">
+    app:startDestination="@id/menuFragment">
 
     <fragment
-        android:id="@+id/boardFragment"
-        android:name="com.maruchin.tictactoe.presentation.board.BoardFragment"
-        android:label="BoardFragment"
-        tools:layout="@layout/fragment_board"/>
+        android:id="@+id/gameFragment"
+        android:name="com.maruchin.tictactoe.presentation.game.GameFragment"
+        tools:layout="@layout/fragment_game" >
+        <argument
+            android:name="data"
+            app:argType="com.maruchin.tictactoe.presentation.game.NewSessionData" />
+    </fragment>
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.maruchin.tictactoe.presentation.menu.MenuFragment"
+        tools:layout="@layout/fragment_menu">
+        <action
+            android:id="@+id/toSoloDialog"
+            app:destination="@id/soloDialog" />
+        <action
+            android:id="@+id/toDuoDialog"
+            app:destination="@id/duoDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/soloDialog"
+        android:name="com.maruchin.tictactoe.presentation.menu.SoloDialog"
+        tools:layout="@layout/dialog_play_solo">
+        <action
+            android:id="@+id/toGameFragment"
+            app:destination="@id/gameFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/duoDialog"
+        android:name="com.maruchin.tictactoe.presentation.menu.DuoDialog"
+        tools:layout="@layout/dialog_play_duo">
+        <action
+            android:id="@+id/toGameFragment"
+            app:destination="@id/gameFragment" />
+    </dialog>
 </navigation>

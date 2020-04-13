@@ -3,11 +3,10 @@ package com.maruchin.tictactoe.core
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.maruchin.tictactoe.core.engine.GameWinnerChecker
 import com.maruchin.tictactoe.core.engine.WinningMoveChecker
 import com.maruchin.tictactoe.core.entities.*
 
-class GameService(
+class PlayersSession(
     private val winningMoveChecker: WinningMoveChecker
 ) {
     val board: LiveData<Board>
@@ -16,6 +15,9 @@ class GameService(
     val winner: LiveData<GamePlayer>
 
     private val gameState = MutableLiveData<Game>()
+    private var players: Pair<Player, Player>? = null
+    private var boardSize: Int? = null
+    private var winningNum: Int? = null
 
     init {
         board = Transformations.map(gameState) { it.board }
@@ -24,14 +26,23 @@ class GameService(
         winner = Transformations.map(gameState) { it.winner }
     }
 
-    fun startNewGame(players: Pair<Player, Player>, boardSize: Int, winningNum: Int) {
-        val newGame = Game(winningMoveChecker, winningNum, players, boardSize)
+    fun initSession(players: Pair<Player, Player>, boardSize: Int, winningNum: Int) {
+        this.players = players
+        this.boardSize = boardSize
+        this.winningNum = winningNum
+    }
+
+    fun startNewGame() {
+        if (arrayOf(players, boardSize, winningNum).any { it == null }) {
+            throw Exception("Session has to be initialized before starting game")
+        }
+        val newGame = Game(winningMoveChecker, winningNum!!, players!!, boardSize!!)
         gameState.value = newGame
     }
 
-    fun makeMove(moveCoordinates: Coordinates) {
+    fun makeMove(move: Coordinates) {
         val currGameState = getCurrGameState()
-        currGameState.makeMove(moveCoordinates)
+        currGameState.makeMove(move)
         gameState.value = currGameState
     }
 

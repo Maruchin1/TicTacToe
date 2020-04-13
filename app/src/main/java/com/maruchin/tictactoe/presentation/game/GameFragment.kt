@@ -1,4 +1,4 @@
-package com.maruchin.tictactoe.presentation.board
+package com.maruchin.tictactoe.presentation.game
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.maruchin.tictactoe.R
 import com.maruchin.tictactoe.core.entities.GamePlayer
-import com.maruchin.tictactoe.databinding.FragmentBoardBinding
+import com.maruchin.tictactoe.databinding.FragmentGameBinding
 import com.maruchin.tictactoe.presentation.framework.BaseFragment
-import kotlinx.android.synthetic.main.fragment_board.*
+import kotlinx.android.synthetic.main.fragment_game.*
 import kotlinx.android.synthetic.main.view_board_field.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board) {
-    override val viewModel: BoardViewModel by viewModel()
+class GameFragment : BaseFragment<FragmentGameBinding>(R.layout.fragment_game) {
+    override val viewModel: GameViewModel by viewModel()
 
     fun onClickMakeMove(position: Int) {
         viewModel.makeMove(position)
