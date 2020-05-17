@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="controller"
+            type="com.maruchin.tictactoe.presentation.game.GameFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.maruchin.tictactoe.presentation.game.GameViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/players_scores"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="8dp"
+                app:layout_constraintEnd_toStartOf="@id/ver_guide"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/App.Widget.CardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:src="@{viewModel.players.first.marker}" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{viewModel.players.first.player.name, default=Imie}"
+                                    android:textAlignment="center"
+                                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{`` + viewModel.players.first.player.score, default=10}"
+                                android:textAlignment="center"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_keyboard_arrow_up_black_24dp"
+                        android:visibility="@{viewModel.moving == viewModel.players.first}" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/App.Widget.CardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:src="@{viewModel.players.second.marker}" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{viewModel.players.second.player.name, default=Imie}"
+                                    android:textAlignment="center"
+                                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{`` + viewModel.players.second.player.score, default=10}"
+                                android:textAlignment="center"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_keyboard_arrow_up_black_24dp"
+                        android:visibility="@{viewModel.moving == viewModel.players.second}" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/ver_guide"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.33" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/board_card"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/colorBlack"
+                app:layout_constraintBottom_toTopOf="@id/btn_end"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ver_guide"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/board_grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="1dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="3"
+                    tools:itemCount="9"
+                    tools:listitem="@layout/view_board_field" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_end"
+                style="@style/App.Widget.OutlineButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:onClick="@{() -> controller.endSession()}"
+                android:text="Zakończ rozgrywkę"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/board_card"
+                app:layout_constraintStart_toStartOf="@id/board_card" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>
