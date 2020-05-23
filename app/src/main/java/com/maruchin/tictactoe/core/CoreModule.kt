@@ -30,7 +30,8 @@ val coreModule = module {
     }
     single {
         PlayersSession(
-            winningMoveChecker = get()
+            winningMoveChecker = get(),
+            playersScoreRepo = get()
         )
     }
 }

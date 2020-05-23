@@ -26,6 +26,9 @@
         <action
             android:id="@+id/toDuoDialog"
             app:destination="@id/duoDialog" />
+        <action
+            android:id="@+id/toScoresFragment"
+            app:destination="@id/scoresFragment" />
     </fragment>
     <dialog
         android:id="@+id/soloDialog"
@@ -52,4 +55,9 @@
             android:name="winnerName"
             app:argType="string" />
     </dialog>
+    <fragment
+        android:id="@+id/scoresFragment"
+        android:name="com.maruchin.tictactoe.presentation.scores.ScoresFragment"
+        android:label="ScoresFragment"
+        tools:layout="@layout/fragment_scores"/>
 </navigation>

@@ -36,6 +36,8 @@ class GameViewModel(
 
     val winner: LiveData<GamePlayer> = playersSession.winner
 
+    var isAiMoving = false
+
     fun initSession(data: NewSessionData) {
         val players: Pair<Player, Player>
         if (data.secondPlayerName != null) {
@@ -50,9 +52,14 @@ class GameViewModel(
         }
     }
 
+    fun endSession() = playersSession.endSession()
+
     fun startNewGame() = playersSession.startNewGame()
 
     fun makeMove(position: Int) {
+        if (isAiMoving) {
+            return
+        }
         val boardSize = boardSize.value!!
         val moveCoordinates = positionToCoordinatesMapper.map(position, boardSize)
         playersSession.makeMove(moveCoordinates)
@@ -83,7 +90,9 @@ class GameViewModel(
     }
 
     private fun makeAiMove(player: PlayerAi, boardState: Board) = viewModelScope.launch {
+        isAiMoving = true
         val move = player.getAiMove(boardState)
         playersSession.makeMove(move)
+        isAiMoving = false
     }
 }

@@ -2,6 +2,7 @@ package com.maruchin.tictactoe
 
 import android.app.Application
 import com.maruchin.tictactoe.core.coreModule
+import com.maruchin.tictactoe.data.dataModule
 import com.maruchin.tictactoe.presentation.presentationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -14,7 +15,7 @@ class MainApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@MainApplication)
-            modules(coreModule + presentationModule)
+            modules(dataModule + coreModule + presentationModule)
         }
     }
 }

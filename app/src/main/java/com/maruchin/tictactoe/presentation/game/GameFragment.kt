@@ -14,9 +14,7 @@ import com.maruchin.tictactoe.R
 import com.maruchin.tictactoe.core.entities.GamePlayer
 import com.maruchin.tictactoe.core.entities.PlayerMarker
 import com.maruchin.tictactoe.databinding.FragmentGameBinding
-import com.maruchin.tictactoe.presentation.framework.BaseFragment
-import com.maruchin.tictactoe.presentation.framework.ConfirmDialog
-import com.maruchin.tictactoe.presentation.framework.srcPlayerMarker
+import com.maruchin.tictactoe.presentation.framework.*
 import kotlinx.android.synthetic.main.fragment_game.*
 import kotlinx.android.synthetic.main.view_board_field.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -35,6 +33,7 @@ class GameFragment : BaseFragment<FragmentGameBinding>(R.layout.fragment_game) {
             message = "Czy na pewno chcesz zakończyć rozrywkę? Nie będzie można już do niej wrócić."
         )
         dialog.onConfirm = {
+            viewModel.endSession()
             findNavController().popBackStack()
         }
         dialog.show(childFragmentManager)
@@ -49,7 +48,7 @@ class GameFragment : BaseFragment<FragmentGameBinding>(R.layout.fragment_game) {
         })
         viewModel.fieldsMarkers.observe(viewLifecycleOwner, Observer {
             val adapter = board_grid.adapter as BoardAdapter
-            adapter.markers = it
+            adapter.items = it
         })
         viewModel.winner.observe(viewLifecycleOwner, Observer {
             if (it != null) {
@@ -64,33 +63,15 @@ class GameFragment : BaseFragment<FragmentGameBinding>(R.layout.fragment_game) {
         findNavController().navigate(dest)
     }
 
-    inner class BoardAdapter : RecyclerView.Adapter<FieldViewHolder>() {
+    inner class BoardAdapter : AppRecyclerViewAdapter<PlayerMarker>(requireContext(), R.layout.view_board_field) {
 
-        var markers: List<PlayerMarker> = emptyList()
-            set(value) {
-                field = value
-                notifyDataSetChanged()
-            }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FieldViewHolder {
-            val inflater = LayoutInflater.from(requireContext())
-            val view = inflater.inflate(R.layout.view_board_field, parent, false)
-            return FieldViewHolder(view)
-        }
-
-        override fun getItemCount(): Int {
-            return markers.size
-        }
-
-        override fun onBindViewHolder(holder: FieldViewHolder, position: Int) {
-            holder.view.apply {
-                srcPlayerMarker(img_marker, markers[position])
+        override fun onBindViewHolder(holder: AppViewHolder, position: Int) {
+            holder.itemView.apply {
+                srcPlayerMarker(img_marker, items[position])
                 root_layout.setOnClickListener {
                     makeMove(position)
                 }
             }
         }
     }
-
-    inner class FieldViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 }

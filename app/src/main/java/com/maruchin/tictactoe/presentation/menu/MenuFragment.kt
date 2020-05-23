@@ -16,4 +16,13 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>(R.layout.fragment_menu) {
         val dest = MenuFragmentDirections.toDuoDialog()
         findNavController().navigate(dest)
     }
+
+    fun showScores() {
+        val dest = MenuFragmentDirections.toScoresFragment()
+        findNavController().navigate(dest)
+    }
+
+    fun exitGame() {
+        requireActivity().finish()
+    }
 }
