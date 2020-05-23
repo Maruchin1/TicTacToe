@@ -37,6 +37,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/App.Widget.InputLayout"
+                    inputError="@{viewModel.errorPlayerName}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="64dp"
@@ -44,7 +45,8 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@={viewModel.playerName}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -57,13 +59,15 @@
                         style="@style/App.Widget.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Anuluj"
-                        android:layout_marginEnd="16dp"/>
+                        android:layout_marginEnd="16dp"
+                        android:text="Anuluj" />
 
                     <com.google.android.material.button.MaterialButton
                         style="@style/App.Widget.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.isFormValid()}"
+                        android:onClick="@{() -> controller.startSession()}"
                         android:text="Rozpocznij" />
                 </LinearLayout>
 

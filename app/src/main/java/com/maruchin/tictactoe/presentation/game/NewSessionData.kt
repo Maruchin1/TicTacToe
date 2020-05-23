@@ -6,5 +6,5 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class NewSessionData(
     val firstPlayerName: String,
-    val secondPlayerName: String
+    val secondPlayerName: String?
 ) : Parcelable

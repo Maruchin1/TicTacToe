@@ -20,4 +20,14 @@ class Board(val size: Int) {
         return coordinates.row in 0 until size &&
                 coordinates.column in 0 until size
     }
+
+    fun forEach(function: (marker: PlayerMarker, coordinates: Coordinates) -> Unit) {
+        for (rowIdx in 0 until size) {
+            for (colIdx in 0 until size) {
+                val coordinates = Coordinates(rowIdx, colIdx)
+                val marker = getForCoordinates(coordinates)
+                function.invoke(marker, coordinates)
+            }
+        }
+    }
 }
